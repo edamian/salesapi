@@ -1,6 +1,7 @@
 package com.is4tech.salesapi.models;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -18,7 +19,10 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "status_id")
     private Status status;
-    private ZonedDateTime dateCreated;
+    private LocalDateTime dateCreated;
+
+    @OneToMany(mappedBy = "orderId")
+    private List<OrderDetail> details;
 
     public Order() {}
 
@@ -54,11 +58,11 @@ public class Order {
         this.status = status;
     }
 
-    public ZonedDateTime getDateCreated() {
+    public LocalDateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(ZonedDateTime dateCreated) {
+    public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 

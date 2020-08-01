@@ -1,4 +1,4 @@
-/*package com.is4tech.salesapi.models;
+package com.is4tech.salesapi.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,9 +10,11 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer Id;
-    @Column(name = "order_id")
+    @ManyToOne
+    @JoinColumn(name = "order_id")
     private Order orderId;
-    @Column(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product productId;
     private Integer quantity;
     @Column(name = "total_line")
@@ -71,4 +73,3 @@ public class OrderDetail {
                 '}';
     }
 }
-*/

@@ -2,6 +2,7 @@ package com.is4tech.salesapi.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "productos")
@@ -19,6 +20,9 @@ public class Product {
     private BigDecimal cost;
     @Column(name = "sale_price")
     private BigDecimal salePrice;
+
+    @OneToMany(mappedBy = "productId")
+    private List<OrderDetail> details;
 
     public  Product() {}
 
