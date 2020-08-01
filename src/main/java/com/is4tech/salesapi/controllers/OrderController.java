@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 @RestController
+@RequestMapping("/api")
 public class OrderController {
 
     private OrderRepository orderRepository;
