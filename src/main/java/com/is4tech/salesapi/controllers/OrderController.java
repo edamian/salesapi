@@ -3,10 +3,10 @@ package com.is4tech.salesapi.controllers;
 import com.is4tech.salesapi.models.*;
 import com.is4tech.salesapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -54,6 +54,12 @@ public class OrderController {
         List<OrderDetail> orderDetails = new ArrayList<>();
         for(ProductQuantity pq : orb.getItems()) {
             Product product = productRepository.getOne(pq.getProductId());
+
+            Integer currentStock = product.getStockQuantity();
+            Integer newStock = currentStock - pq.getQuantity();
+            product.setStockQuantity(newStock);
+            productRepository.save(product);
+
             BigDecimal totalLine = product.getPrice().multiply(new BigDecimal(pq.getQuantity()));
             orderDetails.add( new OrderDetail(
                 saved,
@@ -62,9 +68,19 @@ public class OrderController {
                 totalLine
             ));
         }
-        orderDetails.stream().forEach( detail -> {
-            orderDetailRepository.save(detail);
-        });
+        orderDetailRepository.saveAll(orderDetails);
         return saved;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions( MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }
