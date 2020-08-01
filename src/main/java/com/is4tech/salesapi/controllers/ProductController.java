@@ -51,4 +51,10 @@ public class ProductController {
         temp.setSalePrice(new BigDecimal(body.get("sale_price")));
         return productRepository.save(temp);
     }
+
+    @DeleteMapping("/products/{id}")
+    public void deleteProduct(@PathVariable String id) {
+        productRepository.deleteById(Integer.parseInt(id));
+    }
+
 }
