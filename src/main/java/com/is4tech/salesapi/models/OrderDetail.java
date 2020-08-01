@@ -1,9 +1,12 @@
 package com.is4tech.salesapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders_details")
@@ -23,6 +26,12 @@ public class OrderDetail {
     private Integer quantity;
     @Column(name = "total_line")
     private BigDecimal totalLine;
+    @Column(name = "created_date")
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @Column(name = "modified_date")
+    @LastModifiedDate
+    private  LocalDateTime modifiedDate;
 
     public OrderDetail() {}
 

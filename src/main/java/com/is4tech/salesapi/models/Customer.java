@@ -1,11 +1,17 @@
 package com.is4tech.salesapi.models;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "customers")
 public class Customer {
     @Id
@@ -29,8 +35,14 @@ public class Customer {
     @NotBlank(message = "Password is required")
     @Column(name = "pass")
     private String password;
+    @Column(name = "created_date")
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @Column(name = "modified_date")
+    @LastModifiedDate
+    private  LocalDateTime modifiedDate;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
 
     public Customer() { }

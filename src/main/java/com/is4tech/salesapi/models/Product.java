@@ -2,11 +2,14 @@ package com.is4tech.salesapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -32,6 +35,12 @@ public class Product {
     @NotNull(message = "salePrice is required")
     @Column(name = "sale_price")
     private BigDecimal salePrice;
+    @Column(name = "created_date")
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @Column(name = "modified_date")
+    @LastModifiedDate
+    private  LocalDateTime modifiedDate;
 
     @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
     @JsonIgnore

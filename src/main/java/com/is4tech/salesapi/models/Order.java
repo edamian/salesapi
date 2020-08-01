@@ -1,6 +1,8 @@
 package com.is4tech.salesapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,8 +25,14 @@ public class Order {
     @JoinColumn(name = "status_id")
     private Status status;
     private LocalDateTime dateCreated;
+    @Column(name = "created_date")
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @Column(name = "modified_date")
+    @LastModifiedDate
+    private  LocalDateTime modifiedDate;
 
-    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> details;
 
     public Order() {}
