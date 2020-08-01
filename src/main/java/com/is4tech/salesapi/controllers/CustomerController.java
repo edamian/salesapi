@@ -5,8 +5,8 @@ import com.is4tech.salesapi.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class CustomerController {
@@ -27,28 +27,20 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public Customer createCustomer(@RequestBody Map<String, String> body) {
-        Customer newCustomer = new Customer(
-                body.get("first_name"),
-                body.get("last_name"),
-                body.get("email"),
-                body.get("phone_number"),
-                body.get("address"),
-                body.get("password")
-        );
-        return customerRepository.save(newCustomer);
+    public Customer createCustomer(@Valid @RequestBody Customer customer) {
+        return customerRepository.save(customer);
     }
 
     @PutMapping("/customers/{id}")
-    public Customer updateCustomer(@PathVariable String id, @RequestBody Map<String, String> body) {
+    public Customer updateCustomer(@PathVariable String id, @Valid @RequestBody Customer customer) {
         Integer customerId = Integer.parseInt(id);
-        Customer customer = customerRepository.getOne(customerId);
-        customer.setFirstName(body.get("first_name"));
-        customer.setLastName(body.get("last_name"));
-        customer.setEmail(body.get("email"));
-        customer.setPhoneNumber(body.get("phone_number"));
-        customer.setAddress(body.get("address"));
-        customer.setPassword(body.get("password"));
+        Customer tmp = customerRepository.getOne(customerId);
+        tmp.setFirstName(customer.getFirstName());
+        tmp.setLastName(customer.getLastName());
+        tmp.setEmail(customer.getEmail());
+        tmp.setPhoneNumber(customer.getPhoneNumber());
+        tmp.setAddress(customer.getAddress());
+        tmp.setPassword(customer.getPassword());
         return customerRepository.save(customer);
     }
 }

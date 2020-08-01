@@ -1,5 +1,7 @@
 package com.is4tech.salesapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -11,9 +13,11 @@ public class OrderDetail {
     @Column(name = "id")
     private Integer Id;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "order_id")
     private Order orderId;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product productId;
     private Integer quantity;
@@ -21,6 +25,13 @@ public class OrderDetail {
     private BigDecimal totalLine;
 
     public OrderDetail() {}
+
+    public OrderDetail(Order orderId,Product productId, Integer quantity, BigDecimal totalLine) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.totalLine = totalLine;
+    }
 
     public Integer getId() {
         return Id;

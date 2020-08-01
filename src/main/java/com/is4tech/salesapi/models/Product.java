@@ -1,27 +1,40 @@
 package com.is4tech.salesapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "products")
 public class Product {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
+    @NotBlank(message = "name is required")
     private String name;
+    @NotBlank(message = "description is required")
     private String description;
+    @NotBlank(message = "image is required")
     private String image;
+    @NotNull(message = "stockQuantity is required")
     @Column(name = "stock_quantity")
     private Integer stockQuantity;
+    @NotNull(message = "price is required")
     private BigDecimal price;
+    @NotNull(message = "cost is required")
     private BigDecimal cost;
+    @NotNull(message = "salePrice is required")
     @Column(name = "sale_price")
     private BigDecimal salePrice;
 
-    @OneToMany(mappedBy = "productId")
+    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<OrderDetail> details;
 
     public  Product() {}
@@ -98,6 +111,14 @@ public class Product {
 
     public void setSalePrice(BigDecimal salePrice) {
         this.salePrice = salePrice;
+    }
+
+    public List<OrderDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<OrderDetail> details) {
+        this.details = details;
     }
 
     @Override

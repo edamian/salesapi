@@ -1,8 +1,9 @@
 package com.is4tech.salesapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -14,17 +15,26 @@ public class Order {
     private Integer Id;
     private String orderNumber;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "status_id")
     private Status status;
     private LocalDateTime dateCreated;
 
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
     private List<OrderDetail> details;
 
     public Order() {}
+
+    public Order(String orderNumber, Customer customer, Status status, LocalDateTime dateCreated) {
+        this.orderNumber = orderNumber;
+        this.customer = customer;
+        this.status = status;
+        this.dateCreated = dateCreated;
+    }
 
     public Integer getId() {
         return Id;
@@ -64,6 +74,14 @@ public class Order {
 
     public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public List<OrderDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<OrderDetail> details) {
+        this.details = details;
     }
 
     @Override

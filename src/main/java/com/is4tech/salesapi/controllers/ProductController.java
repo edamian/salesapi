@@ -4,10 +4,11 @@ import com.is4tech.salesapi.models.Product;
 import com.is4tech.salesapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
 public class ProductController {
     private final ProductRepository productRepository;
 
@@ -15,40 +16,27 @@ public class ProductController {
     public ProductController(ProductRepository dependency) { this.productRepository = dependency; }
 
     @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
+    public List<Product> getAllProducts() { return productRepository.findAll(); }
 
     @GetMapping("/products/{id}")
-    public Product getProductById(@PathVariable String id) {
-        return productRepository.getOne(Integer.parseInt(id));
-    }
+    public Product getProductById(@PathVariable String id) { return productRepository.getOne(Integer.parseInt(id)); }
 
     @PostMapping("/products")
-    public Product createProduct(@RequestBody Map<String, String> body) {
-        Product tempProduct = new Product(
-            body.get("name"),
-            body.get("description"),
-            body.get("image"),
-            Integer.parseInt(body.get("stock_quantity")),
-            new BigDecimal(body.get("price")),
-            new BigDecimal(body.get("cost")),
-            new BigDecimal(body.get("sale_price"))
-        );
-        return productRepository.save(tempProduct);
+    public Product createProduct(@Valid @RequestBody Product product) {
+        return productRepository.save(product);
     }
 
     @PutMapping("/products/{id}")
-    public Product updateProduct(@PathVariable String id, @RequestBody Map<String, String> body) {
+    public Product updateProduct(@PathVariable String id, @Valid @RequestBody Product product) {
         Integer productId = Integer.parseInt(id);
         Product temp = productRepository.getOne(productId);
-        temp.setName(body.get("name"));
-        temp.setDescription(body.get("description"));
-        temp.setImage(body.get("image"));
-        temp.setStockQuantity(Integer.parseInt(body.get("stock_quantity")));
-        temp.setPrice(new BigDecimal(body.get("price")));
-        temp.setCost(new BigDecimal(body.get("cost")));
-        temp.setSalePrice(new BigDecimal(body.get("sale_price")));
+        temp.setName(product.getName());
+        temp.setDescription(product.getDescription());
+        temp.setImage(product.getImage());
+        temp.setStockQuantity(product.getStockQuantity());
+        temp.setPrice(product.getPrice());
+        temp.setCost(product.getCost());
+        temp.setSalePrice(product.getSalePrice());
         return productRepository.save(temp);
     }
 
