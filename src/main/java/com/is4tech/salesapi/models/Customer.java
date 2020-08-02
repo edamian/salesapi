@@ -5,8 +5,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,26 +17,40 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer Id;
+
+    @Size(min = 3, max = 90)
     @NotBlank(message = "First name is required")
     @Column(name = "first_name")
     private String firstName;
+
+    @Size(min = 3, max = 90)
     @NotBlank(message = "Last name is required")
     @Column(name = "last_name")
     private String lastName;
+
+    @Size(max = 70)
     @Email(message = "Invalid email address")
     @NotBlank(message = "Email is required")
     private String email;
+
+    @Size(max = 15)
     @NotBlank(message = "Phone number is required")
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Size(max = 150)
     @NotBlank(message = "Address is required")
     private String address;
+
+    @Size(max = 32)
     @NotBlank(message = "Password is required")
     @Column(name = "pass")
     private String password;
+
     @Column(name = "created_date")
     @CreatedDate
     private LocalDateTime createdDate;
+
     @Column(name = "modified_date")
     @LastModifiedDate
     private  LocalDateTime modifiedDate;

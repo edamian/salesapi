@@ -15,19 +15,23 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer Id;
+
     private String orderNumber;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "status_id")
     private Status status;
     private LocalDateTime dateCreated;
+
     @Column(name = "created_date")
     @CreatedDate
     private LocalDateTime createdDate;
+
     @Column(name = "modified_date")
     @LastModifiedDate
     private  LocalDateTime modifiedDate;

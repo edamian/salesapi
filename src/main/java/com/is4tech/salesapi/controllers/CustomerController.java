@@ -32,16 +32,4 @@ public class CustomerController {
         return customerRepository.save(customer);
     }
 
-    @PutMapping("/customers/{id}")
-    public Customer updateCustomer(@PathVariable String id, @Valid @RequestBody Customer customer) {
-        Integer customerId = Integer.parseInt(id);
-        Customer tmp = customerRepository.getOne(customerId);
-        tmp.setFirstName(customer.getFirstName());
-        tmp.setLastName(customer.getLastName());
-        tmp.setEmail(customer.getEmail());
-        tmp.setPhoneNumber(customer.getPhoneNumber());
-        tmp.setAddress(customer.getAddress());
-        tmp.setPassword(customer.getPassword());
-        return customerRepository.save(customer);
-    }
 }

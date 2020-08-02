@@ -2,11 +2,15 @@ package com.is4tech.salesapi.controllers;
 
 import com.is4tech.salesapi.models.*;
 import com.is4tech.salesapi.repositories.*;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +44,16 @@ public class OrderController {
 
     @PostMapping("/orders")
     public Order saveOrder(@RequestBody OrderRequestBody orb) {
+        LocalDateTime placementDate = LocalDateTime.now(ZoneId.of("America/Guatemala"));
+        Customer customer = customerRepository.getOne(orb.getCustomerId());
+        Status status = statusRepository.getOne(1);
+        String hash = DigestUtils.sha1Hex(placementDate.toString() + "-" + customer.getEmail());
+        String orderNumber = Year.now(ZoneId.of("America/Guatemala")).getValue() + "-" + hash.substring(0,8);
         Order order = new Order(
-                "ORD-1",
-                customerRepository.getOne(orb.getCustomerId()),
-                statusRepository.getOne(1),
-                LocalDateTime.now()
+                orderNumber,
+                customer,
+                status,
+                placementDate
         );
 
         Order saved = orderRepository.save(order);
