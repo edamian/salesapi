@@ -18,11 +18,11 @@ import java.util.List;
 @RequestMapping("/api")
 public class OrderController {
 
-    private OrderRepository orderRepository;
-    private ProductRepository productRepository;
-    private CustomerRepository customerRepository;
-    private StatusRepository statusRepository;
-    private OrderDetailRepository orderDetailRepository;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final CustomerRepository customerRepository;
+    private final StatusRepository statusRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
     @Autowired
     public OrderController(OrderRepository orderRepository,
@@ -49,16 +49,20 @@ public class OrderController {
         Status status = statusRepository.getOne(1);
         String hash = DigestUtils.sha1Hex(placementDate.toString() + "-" + customer.getEmail());
         String orderNumber = Year.now(ZoneId.of("America/Guatemala")).getValue() + "-" + hash.substring(0,8);
+
         Order order = new Order(
                 orderNumber,
                 customer,
                 status,
-                placementDate
+                placementDate,
+                BigDecimal.ZERO
         );
 
         Order saved = orderRepository.save(order);
 
         List<OrderDetail> orderDetails = new ArrayList<>();
+        BigDecimal totalOrder = BigDecimal.ZERO;
+
         for(ProductQuantity pq : orb.getItems()) {
             Product product = productRepository.getOne(pq.getProductId());
 
@@ -68,6 +72,7 @@ public class OrderController {
             productRepository.save(product);
 
             BigDecimal totalLine = product.getPrice().multiply(new BigDecimal(pq.getQuantity()));
+            totalOrder = totalOrder.add(totalLine);
             orderDetails.add( new OrderDetail(
                 saved,
                 product,
@@ -75,6 +80,8 @@ public class OrderController {
                 totalLine
             ));
         }
+        order.setTotal(totalOrder);
+        orderRepository.save(order);
         orderDetailRepository.saveAll(orderDetails);
         return saved;
     }

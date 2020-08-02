@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,6 +27,9 @@ public class Order {
     @JsonIgnore
     @JoinColumn(name = "status_id")
     private Status status;
+
+    private BigDecimal total;
+
     private LocalDateTime dateCreated;
 
     @Column(name = "created_date")
@@ -41,11 +45,12 @@ public class Order {
 
     public Order() {}
 
-    public Order(String orderNumber, Customer customer, Status status, LocalDateTime dateCreated) {
+    public Order(String orderNumber, Customer customer, Status status, LocalDateTime dateCreated, BigDecimal total) {
         this.orderNumber = orderNumber;
         this.customer = customer;
         this.status = status;
         this.dateCreated = dateCreated;
+        this.total = total;
     }
 
     public Integer getId() {
@@ -94,6 +99,14 @@ public class Order {
 
     public void setDetails(List<OrderDetail> details) {
         this.details = details;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     @Override
