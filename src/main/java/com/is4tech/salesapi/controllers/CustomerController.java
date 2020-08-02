@@ -18,9 +18,6 @@ public class CustomerController {
         this.customerRepository = dependency;
     }
 
-    @GetMapping("/customers")
-    public List<Customer> getAllCustomers() { return  customerRepository.findAll(); }
-
     @GetMapping("/customers/{id}")
     public Customer getCustomerById(@PathVariable String id) {
         Integer customerId = Integer.parseInt(id);
