@@ -33,6 +33,9 @@ public class OrderDetail {
     @LastModifiedDate
     private  LocalDateTime modifiedDate;
 
+    @Column(name = "is_deleted")
+    private Integer isDeleted;
+
     public OrderDetail() {}
 
     public OrderDetail(Order orderId,Product productId, Integer quantity, BigDecimal totalLine) {
@@ -80,6 +83,14 @@ public class OrderDetail {
 
     public void setTotalLine(BigDecimal totalLine) {
         this.totalLine = totalLine;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

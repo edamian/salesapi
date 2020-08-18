@@ -43,6 +43,9 @@ public class Order {
     @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> details;
 
+    @Column(name = "is_deleted")
+    private Integer isDeleted;
+
     public Order() {}
 
     public Order(String orderNumber, Customer customer, Status status, LocalDateTime dateCreated, BigDecimal total) {
@@ -107,6 +110,14 @@ public class Order {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

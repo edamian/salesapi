@@ -58,6 +58,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
 
+    @Column(name = "is_deleted")
+    private Integer isDeleted;
+
     public Customer() { }
 
     public Customer(String firstName, String lastName, String email, String phoneNumber, String address, String password) {
@@ -140,6 +143,14 @@ public class Customer {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
