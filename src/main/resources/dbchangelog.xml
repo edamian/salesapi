@@ -51,7 +51,7 @@
             </column>
             <column name="created_date" type="timestamp" />
             <column name="modified_date" type="timestamp" />
-            <column name="isDeleted" type="tinyint" />
+            <column name="is_deleted" type="tinyint" />
             <column name="total" type="decimal(10,2)">
                 <constraints nullable="false"/>
             </column>
@@ -134,22 +134,22 @@
         <addColumn tableName="customers">
             <column name="created_date" type="datetime" />
             <column name="modified_date" type="datetime" />
-            <column name="isDeleted" type="tinyint" defaultValue="0"/>
+            <column name="is_deleted" type="tinyint" defaultValue="0"/>
         </addColumn>
         <addColumn tableName="status">
             <column name="created_date" type="datetime" />
             <column name="modified_date" type="datetime" />
-            <column name="isDeleted" type="tinyint" defaultValue="0"/>
+            <column name="is_deleted" type="tinyint" defaultValue="0"/>
         </addColumn>
         <addColumn tableName="products">
             <column name="created_date" type="datetime" />
             <column name="modified_date" type="datetime" />
-            <column name="isDeleted" type="tinyint" defaultValue="0"/>
+            <column name="is_deleted" type="tinyint" defaultValue="0"/>
         </addColumn>
         <addColumn tableName="orders_details">
             <column name="created_date" type="datetime" />
             <column name="modified_date" type="datetime" />
-            <column name="isDeleted" type="tinyint" defaultValue="0"/>
+            <column name="is_deleted" type="tinyint" defaultValue="0"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

@@ -1,9 +1,10 @@
 package com.is4tech.salesapi.controllers;
 
 import com.is4tech.salesapi.models.*;
-import com.is4tech.salesapi.repositories.*;
+import com.is4tech.salesapi.services.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -17,35 +18,35 @@ import java.util.List;
 @RequestMapping("/api")
 public class OrderController {
 
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-    private final CustomerRepository customerRepository;
-    private final StatusRepository statusRepository;
-    private final OrderDetailRepository orderDetailRepository;
+    private final OrderService orderService;
+    private final ProductService productService;
+    private final CustomerService customerService;
+    private final StatusService statusService;
+    private final OrderDetailService orderDetailService;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository,
-                           ProductRepository productRepository,
-                           CustomerRepository customerRepository,
-                           StatusRepository statusRepository,
-                           OrderDetailRepository orderDetailRepository) {
-        this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
-        this.customerRepository = customerRepository;
-        this.statusRepository = statusRepository;
-        this.orderDetailRepository = orderDetailRepository;
+    public OrderController(OrderService orderService,
+                           ProductService productService,
+                           CustomerService customerService,
+                           StatusService statusService,
+                           OrderDetailService orderDetailService) {
+        this.orderService = orderService;
+        this.productService = productService;
+        this.customerService = customerService;
+        this.statusService = statusService;
+        this.orderDetailService = orderDetailService;
     }
 
     @GetMapping("/orders")
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAll());
     }
 
     @PostMapping("/orders")
-    public Order saveOrder(@RequestBody OrderRequestBody orb) {
+    public ResponseEntity<Order> saveOrder(@RequestBody OrderRequestBody orb) {
         LocalDateTime placementDate = LocalDateTime.now(ZoneId.of("America/Guatemala"));
-        Customer customer = customerRepository.getOne(orb.getCustomerId());
-        Status status = statusRepository.getOne(1);
+        Customer customer = customerService.getById(orb.getCustomerId());
+        Status status = statusService.getById(1);
         String hash = DigestUtils.sha1Hex(placementDate.toString() + "-" + customer.getEmail());
         String orderNumber = Year.now(ZoneId.of("America/Guatemala")).getValue() + "-" + hash.substring(0,8);
 
@@ -57,18 +58,18 @@ public class OrderController {
                 BigDecimal.ZERO
         );
 
-        Order saved = orderRepository.save(order);
+        Order saved = orderService.save(order);
 
         List<OrderDetail> orderDetails = new ArrayList<>();
         BigDecimal totalOrder = BigDecimal.ZERO;
 
         for(ProductQuantity pq : orb.getItems()) {
-            Product product = productRepository.getOne(pq.getProductId());
+            Product product = productService.getById(pq.getProductId());
 
             Integer currentStock = product.getStockQuantity();
             Integer newStock = currentStock - pq.getQuantity();
             product.setStockQuantity(newStock);
-            productRepository.save(product);
+            productService.save(product);
 
             BigDecimal totalLine = product.getPrice().multiply(new BigDecimal(pq.getQuantity()));
             totalOrder = totalOrder.add(totalLine);
@@ -80,8 +81,8 @@ public class OrderController {
             ));
         }
         order.setTotal(totalOrder);
-        orderRepository.save(order);
-        orderDetailRepository.saveAll(orderDetails);
-        return saved;
+        orderService.save(order);
+        orderDetailService.saveAll(orderDetails);
+        return ResponseEntity.ok(saved);
     }
 }

@@ -41,10 +41,12 @@ public class Product {
     @Column(name = "modified_date")
     @LastModifiedDate
     private  LocalDateTime modifiedDate;
-
     @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<OrderDetail> details;
+
+    @Column(name = "is_deleted")
+    private Integer isDeleted;
 
     public  Product() {}
 
@@ -128,6 +130,14 @@ public class Product {
 
     public void setDetails(List<OrderDetail> details) {
         this.details = details;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
