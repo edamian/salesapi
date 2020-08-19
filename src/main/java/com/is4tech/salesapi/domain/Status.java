@@ -1,4 +1,4 @@
-package com.is4tech.salesapi.models;
+package com.is4tech.salesapi.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

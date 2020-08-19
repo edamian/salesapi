@@ -1,7 +1,7 @@
 package com.is4tech.salesapi.services;
 
-import com.is4tech.salesapi.models.Customer;
-import com.is4tech.salesapi.repositories.CustomerRepository;
+import com.is4tech.salesapi.dao.CustomerRepository;
+import com.is4tech.salesapi.domain.Customer;
 import org.springframework.stereotype.Service;
 
 @Service

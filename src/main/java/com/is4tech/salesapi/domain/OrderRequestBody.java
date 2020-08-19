@@ -1,4 +1,4 @@
-package com.is4tech.salesapi.models;
+package com.is4tech.salesapi.domain;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

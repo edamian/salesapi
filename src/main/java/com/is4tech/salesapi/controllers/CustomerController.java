@@ -1,6 +1,6 @@
 package com.is4tech.salesapi.controllers;
 
-import com.is4tech.salesapi.models.Customer;
+import com.is4tech.salesapi.domain.Customer;
 import com.is4tech.salesapi.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

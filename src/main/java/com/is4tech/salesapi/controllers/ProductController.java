@@ -1,6 +1,6 @@
 package com.is4tech.salesapi.controllers;
 
-import com.is4tech.salesapi.models.Product;
+import com.is4tech.salesapi.domain.Product;
 import com.is4tech.salesapi.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

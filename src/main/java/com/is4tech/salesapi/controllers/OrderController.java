@@ -1,6 +1,6 @@
 package com.is4tech.salesapi.controllers;
 
-import com.is4tech.salesapi.models.*;
+import com.is4tech.salesapi.domain.*;
 import com.is4tech.salesapi.services.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.is4tech.salesapi.services;
 
-import com.is4tech.salesapi.models.Status;
-import com.is4tech.salesapi.repositories.StatusRepository;
+import com.is4tech.salesapi.dao.StatusRepository;
+import com.is4tech.salesapi.domain.Status;
 import org.springframework.stereotype.Service;
 
 @Service
