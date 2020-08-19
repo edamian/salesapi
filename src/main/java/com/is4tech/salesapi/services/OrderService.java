@@ -1,7 +1,7 @@
 package com.is4tech.salesapi.services;
 
-import com.is4tech.salesapi.models.Order;
-import com.is4tech.salesapi.repositories.OrderRepository;
+import com.is4tech.salesapi.dao.OrderRepository;
+import com.is4tech.salesapi.domain.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.is4tech.salesapi.models;
+package com.is4tech.salesapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,6 +41,7 @@ public class Order {
     private  LocalDateTime modifiedDate;
 
     @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<OrderDetail> details;
 
     @Column(name = "is_deleted")

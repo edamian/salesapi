@@ -1,4 +1,4 @@
-package com.is4tech.salesapi.models;
+package com.is4tech.salesapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;

@@ -1,4 +1,4 @@
-package com.is4tech.salesapi.models;
+package com.is4tech.salesapi.domain;
 
 public class ProductQuantity {
     private Integer productId;
