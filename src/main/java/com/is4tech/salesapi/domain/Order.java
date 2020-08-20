@@ -19,12 +19,10 @@ public class Order {
 
     private String orderNumber;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "status_id")
     private Status status;
 
@@ -41,7 +39,6 @@ public class Order {
     private  LocalDateTime modifiedDate;
 
     @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<OrderDetail> details;
 
     @Column(name = "is_deleted")

@@ -20,7 +20,6 @@ public class OrderDetail {
     @JoinColumn(name = "order_id")
     private Order orderId;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product productId;
     private Integer quantity;
