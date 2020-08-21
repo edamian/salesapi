@@ -2,7 +2,6 @@ package com.is4tech.salesapi.services;
 
 import com.is4tech.salesapi.dao.ProductRepository;
 import com.is4tech.salesapi.domain.Product;
-import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

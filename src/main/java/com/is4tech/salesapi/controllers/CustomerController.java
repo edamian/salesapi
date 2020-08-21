@@ -3,7 +3,6 @@ package com.is4tech.salesapi.controllers;
 import com.is4tech.salesapi.domain.Customer;
 import com.is4tech.salesapi.services.CustomerService;
 import io.micrometer.core.annotation.Timed;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
