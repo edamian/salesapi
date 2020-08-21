@@ -1,10 +1,12 @@
 package com.is4tech.salesapi.controllers;
 
 import com.is4tech.salesapi.domain.Product;
+import com.is4tech.salesapi.dto.ProductDTO;
 import com.is4tech.salesapi.services.ProductService;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,9 +53,14 @@ public class ProductController {
 
     @PostMapping(value = "/products", produces = "application/json")
     @Timed("save.product")
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO product) {
         try {
-            return ResponseEntity.ok(productService.save(product));
+            Product saved = new Product();
+            ProductDTO productDTO = new ProductDTO();
+            BeanUtils.copyProperties(product, saved);
+            saved = productService.save(saved);
+            BeanUtils.copyProperties(saved, productDTO);
+            return ResponseEntity.ok(productDTO);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -61,27 +68,32 @@ public class ProductController {
 
     @PutMapping(value = "/products/{id}", produces = "application/json")
     @Timed("update.product")
-    public ResponseEntity<Product> updateProduct(@PathVariable String id, @Valid @RequestBody Product product) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) {
         try {
             Integer productId = Integer.parseInt(id);
             Product temp = productService.getById(productId);
-            temp.setName(product.getName());
-            temp.setDescription(product.getDescription());
-            temp.setImage(product.getImage());
-            temp.setStockQuantity(product.getStockQuantity());
-            temp.setPrice(product.getPrice());
-            temp.setCost(product.getCost());
-            temp.setSalePrice(product.getSalePrice());
-            return ResponseEntity.ok(productService.save(temp));
+            BeanUtils.copyProperties(productDTO, temp);
+            /*temp.setName(productDTO.getName());
+            temp.setDescription(productDTO.getDescription());
+            temp.setImage(productDTO.getImage());
+            temp.setStockQuantity(productDTO.getStockQuantity());
+            temp.setPrice(productDTO.getPrice());
+            temp.setCost(productDTO.getCost());
+            temp.setSalePrice(productDTO.getSalePrice());*/
+            productService.save(temp);
+
+            System.out.println(temp);
+            System.out.println(productDTO);
+
+            return ResponseEntity.ok(productDTO);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
 
     @DeleteMapping("/products/{id}")
     @Timed("delete.product")
-    public ResponseEntity<?> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable String id) {
         try {
             productService.deleteById(Integer.parseInt(id));
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

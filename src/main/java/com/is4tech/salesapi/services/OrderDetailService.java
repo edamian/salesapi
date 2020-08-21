@@ -14,7 +14,7 @@ public class OrderDetailService {
         this.orderDetailRepository = orderDetailRepository;
     }
 
-    public List<OrderDetail> saveAll(List<OrderDetail> details) {
-        return orderDetailRepository.saveAll(details);
+    public void saveAll(List<OrderDetail> details) {
+        orderDetailRepository.saveAll(details);
     }
 }
