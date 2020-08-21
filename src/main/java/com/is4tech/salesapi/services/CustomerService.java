@@ -2,6 +2,7 @@ package com.is4tech.salesapi.services;
 
 import com.is4tech.salesapi.dao.CustomerRepository;
 import com.is4tech.salesapi.domain.Customer;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,10 +13,12 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Timed("GET_CUSTOMER_BY_ID")
     public Customer getById(Integer id) {
         return customerRepository.getOne(id);
     }
 
+    @Timed("SAVE_CUSTOMER")
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
     }

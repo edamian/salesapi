@@ -2,6 +2,7 @@ package com.is4tech.salesapi.services;
 
 import com.is4tech.salesapi.dao.ProductRepository;
 import com.is4tech.salesapi.domain.Product;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,18 +15,22 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    @Timed
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
+    @Timed
     public Product getById(Integer id) {
         return productRepository.getOne(id);
     }
 
+    @Timed
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
+    @Timed
     public void deleteById(Integer id) {
         Product product = productRepository.getOne(id);
         product.setIsDeleted(1);

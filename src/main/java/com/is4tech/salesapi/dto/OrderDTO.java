@@ -7,9 +7,10 @@ public class OrderDTO {
     private String orderNumber;
     private String firstName;
     private String lastName;
-    private String name;
     private BigDecimal total;
     private List<OrderDetailDTO> details;
+
+    public OrderDTO() {}
 
     public String getOrderNumber() {
         return orderNumber;
@@ -33,14 +34,6 @@ public class OrderDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public BigDecimal getTotal() {

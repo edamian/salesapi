@@ -1,6 +1,5 @@
 package com.is4tech.salesapi.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,7 +16,9 @@ public class Order {
     @Column(name = "id")
     private Integer Id;
 
+    @Column(name = "order_number")
     private String orderNumber;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -42,7 +43,7 @@ public class Order {
     private List<OrderDetail> details;
 
     @Column(name = "is_deleted")
-    private Integer isDeleted;
+    private Integer deleted;
 
     public Order() {}
 
@@ -110,12 +111,12 @@ public class Order {
         this.total = total;
     }
 
-    public Integer getIsDeleted() {
-        return isDeleted;
+    public Integer isDeleted() {
+        return deleted;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(Integer isDeleted) {
+        this.deleted = isDeleted;
     }
 
     @Override

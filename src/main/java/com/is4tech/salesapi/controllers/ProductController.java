@@ -2,6 +2,7 @@ package com.is4tech.salesapi.controllers;
 
 import com.is4tech.salesapi.domain.Product;
 import com.is4tech.salesapi.services.ProductService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class ProductController {
     public ProductController(ProductService productService) { this.productService = productService; }
 
     @GetMapping(value = "/products", produces = "application/json")
+    @Timed("get.products")
     public ResponseEntity<List<Product>> getAllProducts() {
         try {
             return ResponseEntity.ok(productService.findAll());

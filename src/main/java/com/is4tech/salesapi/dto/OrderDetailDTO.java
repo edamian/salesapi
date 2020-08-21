@@ -3,17 +3,27 @@ package com.is4tech.salesapi.dto;
 import java.math.BigDecimal;
 
 public class OrderDetailDTO {
-    private String description;
+    private String name;
     private BigDecimal price;
     private Integer quantity;
     private BigDecimal totalLine;
 
-    public String getDescription() {
-        return description;
+    public OrderDetailDTO() {
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public OrderDetailDTO(String name, BigDecimal price, Integer quantity, BigDecimal totalLine) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.totalLine = totalLine;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getPrice() {

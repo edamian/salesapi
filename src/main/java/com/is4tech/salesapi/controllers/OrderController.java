@@ -2,15 +2,17 @@ package com.is4tech.salesapi.controllers;
 
 import com.is4tech.salesapi.domain.*;
 import com.is4tech.salesapi.dto.OrderDTO;
+import com.is4tech.salesapi.dto.OrderDetailDTO;
 import com.is4tech.salesapi.services.*;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -48,22 +50,33 @@ public class OrderController {
     }
 
     @GetMapping(value = "/orders", produces = "application/json")
-    public ResponseEntity<List<Order>> getAllOrders() {
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
         try {
-            return ResponseEntity.ok(orderService.findAll());
+            List<Order> orders = orderService.findAll();
+            List<OrderDTO> ordersDtos = new ArrayList<>();
+            orders.forEach( order -> {
+                OrderDTO orderDto = new OrderDTO();
+                BeanUtils.copyProperties(order, orderDto);
+                List<OrderDetailDTO> orderDetailsDto = new ArrayList<>();
+                order.getDetails().forEach(orderDetail -> {
+                    orderDto.setFirstName(order.getCustomer().getFirstName());
+                    orderDto.setLastName(order.getCustomer().getLastName());
+                    orderDetailsDto.add(
+                            new OrderDetailDTO(
+                                    orderDetail.getProductId().getName(),
+                                    orderDetail.getProductId().getPrice(),
+                                    orderDetail.getQuantity(),
+                                    orderDetail.getTotalLine())
+                    );
+                    orderDto.setDetails(orderDetailsDto);
+                });
+                ordersDtos.add(orderDto);
+            });
+            return ResponseEntity.ok(ordersDtos);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
-    }
-
-    @GetMapping(value = "/orders/{id}", produces = "application/json")
-    public ResponseEntity<OrderDTO> getById(@PathVariable String id) {
-        Integer orderId = Integer.parseInt(id);
-        Order order = orderService.getById(orderId);
-        OrderDTO orderDTO = new OrderDTO();
-        BeanUtils.copyProperties(order, orderDTO);
-        return ResponseEntity.ok(orderDTO);
     }
 
     @PostMapping(value = "/orders", produces = "application/json")
@@ -113,7 +126,5 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 
 }
