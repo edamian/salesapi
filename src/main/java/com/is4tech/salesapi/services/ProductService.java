@@ -15,22 +15,18 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    @Timed
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
-    @Timed
     public Product getById(Integer id) {
         return productRepository.getOne(id);
     }
 
-    @Timed
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
-    @Timed
     public void deleteById(Integer id) {
         Product product = productRepository.getOne(id);
         product.setIsDeleted(1);

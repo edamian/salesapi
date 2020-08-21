@@ -40,6 +40,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/products/{id}", produces = "application/json")
+    @Timed("get.product.by.id")
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
         try {
             return ResponseEntity.ok(productService.getById(Integer.parseInt(id)));
@@ -49,6 +50,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/products", produces = "application/json")
+    @Timed("save.product")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
         try {
             return ResponseEntity.ok(productService.save(product));
@@ -58,6 +60,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/products/{id}", produces = "application/json")
+    @Timed("update.product")
     public ResponseEntity<Product> updateProduct(@PathVariable String id, @Valid @RequestBody Product product) {
         try {
             Integer productId = Integer.parseInt(id);
@@ -77,6 +80,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
+    @Timed("delete.product")
     public ResponseEntity<?> deleteProduct(@PathVariable String id) {
         try {
             productService.deleteById(Integer.parseInt(id));

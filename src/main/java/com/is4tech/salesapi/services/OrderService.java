@@ -15,16 +15,12 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    @Timed("GET_ORDERS")
     public List<Order> findAll() {
         return orderRepository.findAll();
     }
 
-    @Timed("SAVE_ORDER")
     public Order save(Order order) {
         return orderRepository.save(order);
     }
 
-    @Timed("GET_ORDER_BY_ID")
-    public Order getById(Integer id) { return orderRepository.getOne(id);}
 }

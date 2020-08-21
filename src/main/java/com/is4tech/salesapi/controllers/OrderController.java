@@ -50,6 +50,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/orders", produces = "application/json")
+    @Timed("get.orders")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         try {
             List<Order> orders = orderService.findAll();
@@ -80,6 +81,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/orders", produces = "application/json")
+    @Timed("save.order")
     public ResponseEntity<Order> saveOrder(@RequestBody OrderRequestBody orb) {
         try {
             LocalDateTime placementDate = LocalDateTime.now(ZoneId.of("America/Guatemala"));

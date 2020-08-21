@@ -15,7 +15,6 @@ public class OrderDetailService {
         this.orderDetailRepository = orderDetailRepository;
     }
 
-    @Timed("SAVE_ORDER_DETAILS")
     public List<OrderDetail> saveAll(List<OrderDetail> details) {
         return orderDetailRepository.saveAll(details);
     }

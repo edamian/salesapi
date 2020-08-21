@@ -13,12 +13,10 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    @Timed("GET_CUSTOMER_BY_ID")
     public Customer getById(Integer id) {
         return customerRepository.getOne(id);
     }
 
-    @Timed("SAVE_CUSTOMER")
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
     }
