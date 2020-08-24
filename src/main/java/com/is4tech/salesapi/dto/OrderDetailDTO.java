@@ -8,9 +8,6 @@ public class OrderDetailDTO {
     private Integer quantity;
     private BigDecimal totalLine;
 
-    public OrderDetailDTO() {
-    }
-
     public OrderDetailDTO(String name, BigDecimal price, Integer quantity, BigDecimal totalLine) {
         this.name = name;
         this.price = price;

@@ -15,9 +15,9 @@ import java.util.Map;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class JsonParseExceptionHandler {
     @ExceptionHandler(JsonParseException.class)
-    protected ResponseEntity<Error> handleValidationExceptions(JsonParseException ex) {
+    protected ResponseEntity<Map<String, String>> handleValidationExceptions(JsonParseException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", "Malformed JSON");
-        return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

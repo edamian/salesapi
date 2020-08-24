@@ -14,7 +14,7 @@ public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer Id;
+    private Integer id;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "order_id")
@@ -45,11 +45,11 @@ public class OrderDetail {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public Order getOrderId() {
@@ -95,7 +95,7 @@ public class OrderDetail {
     @Override
     public String toString() {
         return "OrderDetail{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", orderId=" + orderId +
                 ", productId=" + productId +
                 ", quantity=" + quantity +

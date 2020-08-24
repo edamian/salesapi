@@ -1,16 +1,14 @@
-package com.is4tech.salesapi.domain;
+package com.is4tech.salesapi.dto;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-public class OrderRequestBody {
+public class OrderRequestDTO {
 
-    @NotNull(message = "customerId is required")
+    @NotEmpty(message = "customerId is required")
     private Integer customerId;
-    @NotNull(message = "items list is required")
-    private List<ProductQuantity> items;
-
-    public OrderRequestBody() {}
+    @NotEmpty(message = "items list is required")
+    private List<OrderDetailRequestDTO> items;
 
     public Integer getCustomerId() {
         return customerId;
@@ -20,11 +18,11 @@ public class OrderRequestBody {
         this.customerId = customerId;
     }
 
-    public List<ProductQuantity> getItems() {
+    public List<OrderDetailRequestDTO> getItems() {
         return items;
     }
 
-    public void setItems(List<ProductQuantity> items) {
+    public void setItems(List<OrderDetailRequestDTO> items) {
         this.items = items;
     }
 

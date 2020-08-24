@@ -1,8 +1,8 @@
 package com.is4tech.salesapi.controllers;
 
 import com.is4tech.salesapi.domain.*;
-import com.is4tech.salesapi.dto.OrderDTO;
-import com.is4tech.salesapi.dto.OrderDetailDTO;
+import com.is4tech.salesapi.dto.OrderDetailRequestDTO;
+import com.is4tech.salesapi.dto.OrderRequestDTO;
 import com.is4tech.salesapi.services.*;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,6 +27,7 @@ import java.util.List;
     @ApiResponse(responseCode = "201", description = "Resource created"),
     @ApiResponse(responseCode = "400", description = "Invalid request"),
     @ApiResponse(responseCode = "404", description = "Resource not found"),
+    @ApiResponse(responseCode = "500", description = "Internal server error")
 })
 public class OrderController {
 
@@ -47,23 +48,24 @@ public class OrderController {
         this.customerService = customerService;
         this.statusService = statusService;
         this.orderDetailService = orderDetailService;
-    }
+     }
 
     @GetMapping(value = "/orders", produces = "application/json")
     @Timed("get.orders")
-    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+    public ResponseEntity<List<com.is4tech.salesapi.dto.OrderDTO>> getAllOrders() {
         try {
             List<Order> orders = orderService.findAll();
-            List<OrderDTO> ordersDtos = new ArrayList<>();
+
+            List<com.is4tech.salesapi.dto.OrderDTO> ordersDtos = new ArrayList<>();
             orders.forEach( order -> {
-                OrderDTO orderDto = new OrderDTO();
+                com.is4tech.salesapi.dto.OrderDTO orderDto = new com.is4tech.salesapi.dto.OrderDTO();
                 BeanUtils.copyProperties(order, orderDto);
-                List<OrderDetailDTO> orderDetailsDto = new ArrayList<>();
+                List<com.is4tech.salesapi.dto.OrderDetailDTO> orderDetailsDto = new ArrayList<>();
                 order.getDetails().forEach(orderDetail -> {
                     orderDto.setFirstName(order.getCustomer().getFirstName());
                     orderDto.setLastName(order.getCustomer().getLastName());
                     orderDetailsDto.add(
-                            new OrderDetailDTO(
+                            new com.is4tech.salesapi.dto.OrderDetailDTO(
                                     orderDetail.getProductId().getName(),
                                     orderDetail.getProductId().getPrice(),
                                     orderDetail.getQuantity(),
@@ -82,7 +84,7 @@ public class OrderController {
 
     @PostMapping(value = "/orders", produces = "application/json")
     @Timed("save.order")
-    public ResponseEntity<Order> saveOrder(@RequestBody OrderRequestBody orb) {
+    public ResponseEntity<Order> saveOrder(@RequestBody OrderRequestDTO orb) {
         try {
             LocalDateTime placementDate = LocalDateTime.now(ZoneId.of("America/Guatemala"));
             Customer customer = customerService.getById(orb.getCustomerId());
@@ -103,7 +105,7 @@ public class OrderController {
             List<OrderDetail> orderDetails = new ArrayList<>();
             BigDecimal totalOrder = BigDecimal.ZERO;
 
-            for(ProductQuantity pq : orb.getItems()) {
+            for(OrderDetailRequestDTO pq : orb.getItems()) {
                 Product product = productService.getById(pq.getProductId());
 
                 Integer currentStock = product.getStockQuantity();

@@ -19,7 +19,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer Id;
+    private Integer id;
 
     @Size(min = 3, max = 90)
     @NotBlank(message = "First name is required")
@@ -63,7 +63,7 @@ public class Customer {
     private List<Order> orders;
 
     @Column(name = "is_deleted")
-    private Integer isDeleted;
+    private Integer deleted;
 
     public Customer() { }
 
@@ -77,7 +77,7 @@ public class Customer {
     }
 
     public Customer(Integer id, @NotBlank(message = "First name is required") String firstName, @NotBlank(message = "Last name is required") String lastName, @NotBlank(message = "Email is required") String email, @NotBlank(message = "Phone number is required") String phoneNumber, @NotBlank(message = "Address is required") String address) {
-        Id = id;
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -86,11 +86,11 @@ public class Customer {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -149,18 +149,18 @@ public class Customer {
         this.orders = orders;
     }
 
-    public Integer getIsDeleted() {
-        return isDeleted;
+    public Integer getDeleted() {
+        return deleted;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(Integer isDeleted) {
+        this.deleted = isDeleted;
     }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

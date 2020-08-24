@@ -1,7 +1,11 @@
-package com.is4tech.salesapi.domain;
+package com.is4tech.salesapi.dto;
 
-public class ProductQuantity {
+import javax.validation.constraints.NotEmpty;
+
+public class OrderDetailRequestDTO {
+    @NotEmpty
     private Integer productId;
+    @NotEmpty
     private Integer quantity;
 
     public Integer getProductId() {

@@ -10,8 +10,6 @@ public class OrderDTO {
     private BigDecimal total;
     private List<OrderDetailDTO> details;
 
-    public OrderDTO() {}
-
     public String getOrderNumber() {
         return orderNumber;
     }

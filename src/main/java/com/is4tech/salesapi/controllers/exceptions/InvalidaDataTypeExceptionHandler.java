@@ -15,10 +15,10 @@ import java.util.Map;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class InvalidaDataTypeExceptionHandler {
     @ExceptionHandler(InvalidFormatException.class)
-    protected ResponseEntity handleInvalidDataTypeExceptions(InvalidFormatException ex) {
+    protected ResponseEntity<Map<String, String>> handleInvalidDataTypeExceptions(InvalidFormatException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", "Invalid data type");
         ex.printStackTrace();
-        return  new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

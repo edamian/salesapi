@@ -73,18 +73,7 @@ public class ProductController {
             Integer productId = Integer.parseInt(id);
             Product temp = productService.getById(productId);
             BeanUtils.copyProperties(productDTO, temp);
-            /*temp.setName(productDTO.getName());
-            temp.setDescription(productDTO.getDescription());
-            temp.setImage(productDTO.getImage());
-            temp.setStockQuantity(productDTO.getStockQuantity());
-            temp.setPrice(productDTO.getPrice());
-            temp.setCost(productDTO.getCost());
-            temp.setSalePrice(productDTO.getSalePrice());*/
             productService.save(temp);
-
-            System.out.println(temp);
-            System.out.println(productDTO);
-
             return ResponseEntity.ok(productDTO);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

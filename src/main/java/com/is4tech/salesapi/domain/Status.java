@@ -13,7 +13,7 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer Id;
+    private Integer id;
     private String name;
     private String description;
     @Column(name = "created_date")
@@ -26,14 +26,16 @@ public class Status {
     @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     private List<Order> orders;
 
-    public Status() {}
+    public Status() {
+        // Do nothing requirement for beanutils
+    }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -55,7 +57,7 @@ public class Status {
     @Override
     public String toString() {
         return "Status{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';

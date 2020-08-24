@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class ProductDTO {
 
-    private Integer Id;
+    private Integer id;
     @NotBlank(message = "name is required")
     private String name;
     @NotBlank(message = "description is required")
@@ -23,11 +23,11 @@ public class ProductDTO {
     private BigDecimal salePrice;
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {

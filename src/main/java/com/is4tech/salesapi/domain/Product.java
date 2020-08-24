@@ -17,7 +17,7 @@ public class Product {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    private Integer id;
     @NotBlank(message = "name is required")
     private String name;
     @NotBlank(message = "description is required")
@@ -60,11 +60,11 @@ public class Product {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -142,7 +142,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", image='" + image + '\'' +

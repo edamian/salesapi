@@ -14,7 +14,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer Id;
+    private Integer id;
 
     @Column(name = "order_number")
     private String orderNumber;
@@ -56,11 +56,11 @@ public class Order {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getOrderNumber() {
@@ -122,7 +122,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", orderNumber='" + orderNumber + '\'' +
                 ", customer=" + customer +
                 ", status=" + status +
